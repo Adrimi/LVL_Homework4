@@ -30,17 +30,17 @@ class JokeViewController: UIViewController {
 	}
 
 	@objc func refreshJoke() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
 		refreshButton.isUserInteractionEnabled = false
 		jokeProvider.fetch { [weak self] result in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
 			self?.complete(joke: try? result.get())
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
 		}
 	}
 
 	// MARK - Private
 
 	private func complete(joke: Joke?) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
 		self.jokeLabel.text = joke?.content ?? "Error"
 		self.refreshButton.isUserInteractionEnabled = true
 	}
