@@ -78,7 +78,7 @@ class JokeViewControllerTests_Refresh: XCTestCase {
 
 	// TODO: TASK 2
 	// Add tests to show activity indicator in view
-
+    
     
 }
 

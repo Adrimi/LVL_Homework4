@@ -32,7 +32,9 @@ class JokeViewController: UIViewController {
 	@objc func refreshJoke() {
 		refreshButton.isUserInteractionEnabled = false
 		jokeProvider.fetch { [weak self] result in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
 			self?.complete(joke: try? result.get())
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
 		}
 	}
 

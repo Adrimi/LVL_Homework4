@@ -17,7 +17,7 @@ class AppDelegateTests: XCTestCase {
 		sut.windowFactory = windowFactorySpy
 		sut.rootControllerFactory = rootControllerFactoryStub
 		launchResult = sut.application(UIApplication.shared, didFinishLaunchingWithOptions: nil)
-	}
+    }
 
 	override func tearDown() {
 		sut = nil
