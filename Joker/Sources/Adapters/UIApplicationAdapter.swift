@@ -9,5 +9,11 @@
 import UIKit
 
 protocol UIApplicationAdapting {
-    func getUIAppShared() -> UIApplication 
+    func getUIAppShared() -> UIApplication
+}
+
+extension UIApplication: UIApplicationAdapting {
+    func getUIAppShared() -> UIApplication {
+        return .shared
+    }
 }

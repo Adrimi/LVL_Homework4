@@ -1,22 +1,20 @@
 import UIKit
 
-class JokeViewController: UIViewController, UIApplicationAdapting {
+class JokeViewController: UIViewController {
 
 	let jokeProvider: JokeProviding
+    private let uiAppShared: UIApplication
 
 	lazy var refreshButton: UIButton = UIButton(type: .system)
 	lazy var jokeLabel: UILabel = UILabel()
 
 	init(jokeProvider: JokeProviding = JokeNetworkProvider()) {
 		self.jokeProvider = jokeProvider
+        self.uiAppShared = UIApplication.shared
 		super.init(nibName: nil, bundle: nil)
 	}
 
 	required init?(coder aDecoder: NSCoder) { return nil }
-
-    func getUIAppShared() -> UIApplication {
-        return UIApplication.shared
-    }
     
 	override func loadView() {
 		self.view = UIView()
@@ -34,7 +32,7 @@ class JokeViewController: UIViewController, UIApplicationAdapting {
 	}
 
 	@objc func refreshJoke() {
-        getUIAppShared().isNetworkActivityIndicatorVisible = true
+        uiAppShared.isNetworkActivityIndicatorVisible = true
 		refreshButton.isUserInteractionEnabled = false
 		jokeProvider.fetch { [weak self] result in
 			self?.complete(joke: try? result.get())
@@ -44,7 +42,7 @@ class JokeViewController: UIViewController, UIApplicationAdapting {
 	// MARK - Private
 
 	private func complete(joke: Joke?) {
-        getUIAppShared().isNetworkActivityIndicatorVisible = false
+        uiAppShared.isNetworkActivityIndicatorVisible = false
 		self.jokeLabel.text = joke?.content ?? "Error"
 		self.refreshButton.isUserInteractionEnabled = true
 	}

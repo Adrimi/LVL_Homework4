@@ -12,6 +12,6 @@ import UIKit
 
 class UIApplicationSpy: UIApplicationAdapting {
     func getUIAppShared() -> UIApplication {
-        return UIApplicationAdapting.getUIAppShared(self)()
+        return .shared
     }
 }
