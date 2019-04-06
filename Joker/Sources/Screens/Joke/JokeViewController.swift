@@ -1,6 +1,6 @@
 import UIKit
 
-class JokeViewController: UIViewController {
+class JokeViewController: UIViewController, UIApplicationAdapting {
 
 	let jokeProvider: JokeProviding
 
@@ -14,6 +14,10 @@ class JokeViewController: UIViewController {
 
 	required init?(coder aDecoder: NSCoder) { return nil }
 
+    func getUIAppShared() -> UIApplication {
+        return UIApplication.shared
+    }
+    
 	override func loadView() {
 		self.view = UIView()
 		view.backgroundColor = .white
@@ -30,7 +34,7 @@ class JokeViewController: UIViewController {
 	}
 
 	@objc func refreshJoke() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        getUIAppShared().isNetworkActivityIndicatorVisible = true
 		refreshButton.isUserInteractionEnabled = false
 		jokeProvider.fetch { [weak self] result in
 			self?.complete(joke: try? result.get())
@@ -40,7 +44,7 @@ class JokeViewController: UIViewController {
 	// MARK - Private
 
 	private func complete(joke: Joke?) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        getUIAppShared().isNetworkActivityIndicatorVisible = false
 		self.jokeLabel.text = joke?.content ?? "Error"
 		self.refreshButton.isUserInteractionEnabled = true
 	}

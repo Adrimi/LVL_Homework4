@@ -10,10 +10,12 @@ class JokeViewControllerTests_Refresh: XCTestCase {
 
 	var sut: JokeViewController!
 	var jokeProviderFake: JokeProviderSpy!
+    var uiApplicationSpy: UIApplicationSpy!
 
 	override func setUp() {
 		super.setUp()
 		jokeProviderFake = JokeProviderSpy()
+        uiApplicationSpy = UIApplicationSpy()
 		sut = JokeViewController(jokeProvider: jokeProviderFake)
 		_ = sut.view
 	}
@@ -21,6 +23,7 @@ class JokeViewControllerTests_Refresh: XCTestCase {
 	override func tearDown() {
 		sut = nil
 		jokeProviderFake = nil
+        uiApplicationSpy = nil
 		super.tearDown()
 	}
 
@@ -79,6 +82,20 @@ class JokeViewControllerTests_Refresh: XCTestCase {
 	// TODO: TASK 2
 	// Add tests to show activity indicator in view
     
+    func testNetworkActivityIndicatorShouldAppearOnFetch() {
+        simulateRefresh()
+        XCTAssertTrue(uiApplicationSpy.getUIAppShared().isNetworkActivityIndicatorVisible)
+    }
+    
+    func testNetworkActivityIndicatorDissapearAfterError() {
+        simulateRefreshWithError()
+        XCTAssertFalse(uiApplicationSpy.getUIAppShared().isNetworkActivityIndicatorVisible)
+    }
+    
+    func testNetworkActivityIndicatorDissapearAfterSuccess() {
+        simulateRefreshWithSuccess()
+        XCTAssertFalse(uiApplicationSpy.getUIAppShared().isNetworkActivityIndicatorVisible)
+    }
     
 }
 
